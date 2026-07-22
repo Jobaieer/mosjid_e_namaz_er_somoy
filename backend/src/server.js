@@ -1,5 +1,5 @@
 const dns = require("dns");
-dns.setServers(["8.8.8.8", "8.8.4.4"]); 
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 require("dotenv").config();
 const express = require("express");
@@ -12,10 +12,14 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("Masjid Namaz Time API running"));
 
-const PORT = process.env.PORT || 5000;
+// apis
+app.use("/api/mosque", require("./routes/mosque"));
+app.use("/api/prayer-times", require("./routes/prayerTimes"));
+app.use("/api", require("./routes/search"));
 
+const PORT = process.env.PORT || 5000;
 connectDB().then(() => {
   app.listen(PORT, () =>
-    console.log(` Server running on http://localhost:${PORT}`),
+    console.log(`Server running on http://localhost:${PORT}`),
   );
 });
